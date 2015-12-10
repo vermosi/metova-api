@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
-    resources :garages
-    resources :cars
+    resources :garages do
+      resources :cars
+    end
     resources :users do
       collection do
         post 'sign_in'

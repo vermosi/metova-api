@@ -12,7 +12,7 @@ gem 'sqlite3'
 
 gem 'active_model_serializers'
 
-gem 'rspec-rails'
+gem 'rspec-rails', '3.3.2'
 
 
 # To use ActiveModel has_secure_password
