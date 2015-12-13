@@ -1,15 +1,15 @@
 require 'test_helper'
 
-class ListingCarsTest < ActionDispatch::IntegrationTest
+class ListingGaragesTest < ActionDispatch::IntegrationTest
 
     setup { host! 'www.example.com'}
 
-    test 'returns car by id' do
-        car = Car.create!(make: 'Nissan', model: 'Sentra', year: '2011')
-        get "http://localhost:3000/api/cars/{#car.id}"
+    test 'returns garage by id' do
+        garage = Garage.create!(name: 'Rusty Old Shack')
+        get "/garages/#{garage.id}"
         assert_equal 200, response.status
 
-        car_response = json(response.body)
-        assert_includes car.make, car_response[:make]
+        garage_response = json(response.body)
+        assert_includes garage.name, garage_response[:make]
     end
 end

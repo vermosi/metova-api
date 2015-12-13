@@ -21,6 +21,8 @@ module API
     # POST /users
     # POST /users.json
     def create
+      puts params.inspect
+      puts 'test'
       @user = User.new(user_params)
 
       if @user.save
@@ -51,24 +53,25 @@ module API
       head :no_content
     end
 
-    def sign_in
-      @user = User.find_by(email: params[:email])
+    #def login
+      #@user = User.find_by(email: params[:email])
 
-      if @user.password == params[:password]
-        render json: {message: "authenticated"}
-      else
-        render json: {message: "no soup for you"}, status: 401
-      end
-    end
+      #if @user.password == params[:password]
+        #render json: {message: "authenticated"}
+      #else
+        #render json: {message: "no soup for you"}, status: 401
+      #end
+    #end
 
     private
 
-    def set_user
-      @user = User.find(params[:id])
-    end
+    # def set_user
+    #   @user = User.find(params[:id])
+    # end
 
     def user_params
-      params.require(:user).permit(:name, :email, :password)
+     puts params.inspect
+      params.require(:api_user).permit(:email, :password)
     end
   end
 end

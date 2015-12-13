@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151209002349) do
+ActiveRecord::Schema.define(version: 20151213000701) do
 
   create_table "cars", force: :cascade do |t|
     t.datetime "created_at"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 20151209002349) do
     t.string   "make"
     t.string   "model"
     t.integer  "year"
+    t.integer  "user_id"
+    t.integer  "garage_id"
   end
 
   create_table "garages", force: :cascade do |t|

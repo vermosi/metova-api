@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :garages do
       resources :cars
     end
+    resources :cars
     resources :users do
       collection do
         post 'sign_in'
@@ -15,7 +16,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'users#index'
+   root 'garages#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
