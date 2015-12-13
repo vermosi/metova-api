@@ -1,9 +1,26 @@
+class AccessDeniedError < StandardError
+end
+class NotAuthenticatedError < StandardError
+end
+class AuthenticationTimeoutError < StandardError
+end
+
 class ApplicationController < ActionController::API
-    #protect_from_forgery with: :null_session
+    attr_reader :current_user
+    rescue_from AuthenticationTimeoutError, with: :authentication_timeout
+    rescue_from NotAuthenticatedError, with: :user_not_authenticated
+
+      def authenticate_request!
+        fail NotAuthenticatedError unless user_id_included_in_auth_token?
+        @current_user = User.find(decoded_auth_token[:user_id])
+      rescue JWT::ExpiredSignature
+        raise AuthenticationTimeoutError
+      rescue JWT::VerificationError, JWT::DecodeError
+        raise NotAuthenticatedError
+      end
 
   include ActionController::Serialization
-  include ActionController::HttpAuthentication::Basic::ControllerMethods
-  include ActionController::HttpAuthentication::Token::ControllerMethods
+  include ActionController::ImplicitRender
 
     serialization_scope :view_context
 
@@ -11,23 +28,33 @@ class ApplicationController < ActionController::API
         {root: false}
     end
 
-    # def token
-    #     authenticate_with_http_basic do |email, password|
-    #         user = User.find_by(email: email)
-    #         if user && user.password == password
-    #             render json: {token: user.auth_token}
-    #         else
-    #             render json: {error: 'Incorrect credentials'}, status: 401
-    #         end
-    #     end
-    # end
+    def user_id_included_in_auth_token?
+        http_auth_token && decoded_auth_token && decoded_auth_token[:user_id]
+    end
 
-    #before_filter :authenticate_user_from_token, except: [:token]
+    def http_auth_token
+        @http_auth_token ||= if request.headers['Authorization'].present?
+                           request.headers['Authorization'].split(' ').last
+                         end
+    end
+
+    def decoded_auth_token
+        @decoded_auth_token ||= AuthToken.decode(http_auth_token)
+    end
+
+
 
   private
-    # def authenticate_user_from_token
-    #   unless authenticate_with_http_token { |token, options| User.find_by(auth_token: token) }
-    #     render json: { error: 'Bad Token'}, status: 401
-    #   end
-    # end
+
+      def authentication_timeout
+        render json: { errors: ['Authentication Timeout'] }, status: 419
+      end
+
+      def forbidden_resource
+        render json: { errors: ['Not Authorized To Access Resource'] }, status: :forbidden
+      end
+
+      def user_not_authenticated
+        render json: { errors: ['Not Authenticated'] }, status: :unauthorized
+      end
 end

@@ -5,6 +5,8 @@ module API
     # GET /garages
     # GET /garages.json
     def index
+      authenticate_request!
+
       @garages = Garage.all
 
       render json: @garages
@@ -13,6 +15,8 @@ module API
     # GET /garages/1
     # GET /garages/1.json
     def show
+      authenticate_request!
+
       @garage = Garage.find(params[:id])
       render json: @garage
     end
@@ -20,6 +24,8 @@ module API
     # POST /garages
     # POST /garages.json
     def create
+      authenticate_request!
+
       @garage = Garage.new(garage_params)
 
       if @garage.save
@@ -32,6 +38,8 @@ module API
     # PATCH/PUT /garages/1
     # PATCH/PUT /garages/1.json
     def update
+      authenticate_request!
+
       @garage = Garage.find(params[:id])
 
       if @garage.update(garage_params)
@@ -44,6 +52,8 @@ module API
     # DELETE /garages/1
     # DELETE /garages/1.json
     def destroy
+      authenticate_request!
+
       @garage = Garage.find(params[:id])
       @garage.destroy
 

@@ -5,6 +5,7 @@ module API
     # GET /cars
     # GET /cars.json
     def index
+      authenticate_request!
       @cars = Car.all
 
       render json: @cars
@@ -13,6 +14,7 @@ module API
     # GET /cars/1
     # GET /cars/1.json
     def show
+      authenticate_request!
       @car = Car.find(params[:id])
       render json: @car, status: 200
     end
@@ -20,6 +22,8 @@ module API
     # POST /cars
     # POST /cars.json
     def create
+      authenticate_request!
+
       @car = Car.new(car_params)
 
       if @car.save
@@ -32,6 +36,8 @@ module API
     # PATCH/PUT /cars/1
     # PATCH/PUT /cars/1.json
     def update
+      authenticate_request!
+
       @car = Car.find(params[:id])
 
       if @car.update(car_params)
@@ -44,6 +50,8 @@ module API
     # DELETE /cars/1
     # DELETE /cars/1.json
     def destroy
+      authenticate_request!
+
       @car = Car.find(params[:id])
       @car.destroy
 

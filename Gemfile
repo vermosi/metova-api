@@ -16,6 +16,9 @@ gem 'rspec-rails', '3.3.2'
 
 gem 'rack-cors'
 
+gem 'jwt'
+
+gem 'devise'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

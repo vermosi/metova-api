@@ -1,11 +1,11 @@
 module API
 
   class UsersController < ApplicationController
-    before_action :set_user, only: [:show, :update, :destroy]
-
     # GET /users
     # GET /users.json
     def index
+      authenticate_request!
+
       @users = User.all
 
       render json: @users, status: 200
@@ -14,6 +14,8 @@ module API
     # GET /users/1
     # GET /users/1.json
     def show
+      authenticate_request!
+
       @user = User.find(params[:id])
       render json: @user
     end
@@ -21,6 +23,8 @@ module API
     # POST /users
     # POST /users.json
     def create
+      authenticate_request!
+
       puts params.inspect
       puts 'test'
       @user = User.new(user_params)
@@ -35,6 +39,8 @@ module API
     # PATCH/PUT /users/1
     # PATCH/PUT /users/1.json
     def update
+      authenticate_request!
+
       @user = User.find(params[:id])
 
       if @user.update(user_params)
@@ -47,6 +53,8 @@ module API
     # DELETE /users/1
     # DELETE /users/1.json
     def destroy
+      authenticate_request!
+
       @user = User.find(params[:id])
       @user.destroy
 
@@ -64,10 +72,6 @@ module API
     #end
 
     private
-
-    # def set_user
-    #   @user = User.find(params[:id])
-    # end
 
     def user_params
      puts params.inspect
