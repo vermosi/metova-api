@@ -1,11 +1,11 @@
 language: ruby
-script: true
+script: "bundle exec rspec"
 rvm:
     - 1.9.3
     - 2.0.0
 before_script:
-  - "rake db:migrate"
-  - "rake db:seed"
+  - "bundle exec rake db:migrate"
+  - "bundle exec rake db:seed"
 
 sudo: false
 
