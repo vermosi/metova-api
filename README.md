@@ -5,9 +5,15 @@ This is an api built by Kyle Ashmore for consideration for a Rails Developer pos
 
 
 Breakdown of how the application works:
-  - Authenticate using Name and Email via JSON at `:3000/authenticate` via `POST` method.
-  - Take the generated authentication token and add it to your header via: 
-     - `Authorization: Bearer <insert authentication token here>.`
+  - After cloning the repo run the following commands:
+    - `bundle exec rake db:schema:load`
+    - `bundle exec rake db:migrate`
+    - `bundle exec rake db:seed`
+    - This will add all of the database info needed to run the application
+  - Authenticate using Name and Email via JSON at `:3000/authenticate` via `POST` method in your favorite REST client:
+    - Example: ` { "name": "Ron", "email": "ron.swanson@pawnee.gov" } `
+  - Take the generated authentication token and add it to your headers: 
+     - `Authorization: Bearer < insert authentication token here >.`
   - Gain access to the rest of the API.
 
 Resources used to make this application:
