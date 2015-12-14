@@ -14,6 +14,8 @@ gem 'active_model_serializers'
 
 gem 'rspec-rails', '3.3.2'
 
+gem 'rack-cors'
+
 gem 'jwt'
 
 gem 'devise'
